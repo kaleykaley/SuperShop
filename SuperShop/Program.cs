@@ -11,8 +11,11 @@ namespace SuperShop
 {
     public class Program
     {
+        // criar uma aplicacao, arrancar a app com configuracoes injectadas
+        // no startup
         public static void Main(string[] args)
         {
+            // host- deixa correr a applicação em qualquer sistema operativo
             CreateHostBuilder(args).Build().Run();
         }
 

@@ -1,0 +1,53 @@
+﻿@model SuperShop.Data.Entities.Product
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<form asp-action="Edit">
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ImageUrl"></label>
+        <input asp-for="ImageUrl" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastPurchase"></label>
+        <input asp-for="LastPurchase" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastSale"></label>
+        <input asp-for="LastSale" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IsAvailable"></label><br />
+        <input asp-for="IsAvailable" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Stock"></label>
+        <input asp-for="Stock" class="form-control" />
+    </div>
+
+    <br />
+
+    <input type="submit" value="Save" class="btn btn-primary" />
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+
+</form>
