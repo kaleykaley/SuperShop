@@ -3,7 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SuperShop.Data.Entities
 {
-    
+    // after making changes here (to DB), must make respective migration
+    // go to Package Manager Console "add-migration ModifyProducts" and then "update-database"
+
     // classe que representa a tabela de produtos na base de dados
     public class Product
     {
@@ -11,8 +13,11 @@ namespace SuperShop.Data.Entities
         // senao chamassemos "Id" teria que usar dataAnnotations [Key]
         // automaticamente metido como chave primaria  
         // porque o nome da propiedade Id e é inteiro
-        public int Id { get; set; } 
+        public int Id { get; set; }
 
+        // the errormessage doesnt make sense because it's not possible to insert more than 50 char
+        [Required] //data annotation that makes name required
+        [MaxLength(50, ErrorMessage ="The field {0} cannot contain more than {1} characters.")]
         public string Name { get; set; }
 
 
@@ -29,11 +34,11 @@ namespace SuperShop.Data.Entities
 
         // Display: para aparecer "Last Purchase" na página web em vez de "LastPurchase"
         [Display(Name = "Last Purchase")]
-        public DateTime LastPurchase { get; set; }
+        public DateTime? LastPurchase { get; set; }
 
         // Display: para aparecer "Last Purchase" na página web em vez de "LastPurchase"
         [Display(Name = "Last Sale")]
-        public DateTime LastSale { get; set; }
+        public DateTime? LastSale { get; set; } // '?' makes datetime optional
 
         [Display(Name = "Is Available")]
         public bool IsAvailable { get; set; }

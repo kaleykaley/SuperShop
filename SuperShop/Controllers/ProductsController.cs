@@ -18,6 +18,7 @@ namespace SuperShop.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
+            // have to convert ToList because it's a table
             return View(await _context.Products.ToListAsync());
         }
 
