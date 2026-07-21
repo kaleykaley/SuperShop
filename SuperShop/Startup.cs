@@ -33,6 +33,10 @@ namespace SuperShop
 
             });
 
+            // dizer que quero usar o service do meu seed
+            // addtransient: vai usar e botar fora, vai criar um novo a cada vez que for chamado
+            services.AddTransient<SeedDb>();
+
             services.AddControllersWithViews();
         }
 
