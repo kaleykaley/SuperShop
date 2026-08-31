@@ -17,7 +17,7 @@ namespace SuperShop.Data.Entities
 
         // the errormessage doesnt make sense because it's not possible to insert more than 50 char
         [Required] //data annotation that makes name required
-        [MaxLength(50, ErrorMessage ="The field {0} cannot contain more than {1} characters.")]
+        [MaxLength(50, ErrorMessage = "The field {0} cannot contain more than {1} characters.")]
         public string Name { get; set; }
 
 
@@ -49,5 +49,6 @@ namespace SuperShop.Data.Entities
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         public double Stock { get; set; }
 
+        public User User { get; set; }
     }
 }
