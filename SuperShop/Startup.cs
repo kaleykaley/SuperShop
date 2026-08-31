@@ -37,6 +37,10 @@ namespace SuperShop
             // addtransient: vai usar e botar fora, vai criar um novo a cada vez que for chamado
             services.AddTransient<SeedDb>();
 
+            // dizer que quero usar o meu repository, e que quero que seja scoped, ou seja, vai ser criado uma vez por request
+            services.AddScoped<IRepository, Repository>();
+            // mockrepository - for testing with fake data, repository - for real data
+
             services.AddControllersWithViews();
         }
 
