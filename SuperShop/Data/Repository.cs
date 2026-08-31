@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 
 namespace SuperShop.Data
 {
+    // **** DELETED BY PROFESSOR ***
+
     // classe que vai aceder a datacontext e fazer CRUD
 
     // all of these methods are from entity framework (add, update, find, etc)
 
     // added interface by right clicking "Repository" -> Quick Actions and Refactorings > Extract Interface > IRespository
-    public class Repository : IRepository
+    /*public class Repository : IRepository
     {
         private readonly DataContext _context;
         public Repository(DataContext context)
@@ -60,5 +62,5 @@ namespace SuperShop.Data
         {
             return _context.Products.Any(p => p.Id == id);
         }
-    }
+    } */
 }

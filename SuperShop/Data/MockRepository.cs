@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+/*
 namespace SuperShop.Data
 {
+    // **** DELETED BY PROFESSOR ***
     public class MockRepository : IRepository
     {
+        
         public void AddProduct(Product product)
         {
             throw new System.NotImplementedException();
@@ -49,5 +51,6 @@ namespace SuperShop.Data
         {
             throw new NotImplementedException();
         }
-    }
+    } 
 }
+*/

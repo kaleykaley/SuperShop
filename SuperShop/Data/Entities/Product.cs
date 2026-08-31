@@ -7,7 +7,7 @@ namespace SuperShop.Data.Entities
     // go to Package Manager Console "add-migration ModifyProducts" and then "update-database"
 
     // classe que representa a tabela de produtos na base de dados
-    public class Product
+    public class Product : IEntity
     {
 
         // senao chamassemos "Id" teria que usar dataAnnotations [Key]
