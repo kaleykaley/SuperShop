@@ -18,7 +18,7 @@ namespace SuperShop.Controllers.API
         public IActionResult GetProducts()
         {
             // get all products from repository and return them as JSON
-            return Ok(_productRepository.GetAll());
+            return Ok(_productRepository.GetAllWithUsers());
         }
     }
 }
