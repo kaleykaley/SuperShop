@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using SuperShop.Data.Entities;
-using System.ComponentModel.DataAnnotations;
 
 namespace SuperShop.Models
 {
