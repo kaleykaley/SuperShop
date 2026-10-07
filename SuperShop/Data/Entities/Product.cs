@@ -58,10 +58,10 @@ namespace SuperShop.Data.Entities
             {
                 if (string.IsNullOrEmpty(ImageUrl))
                 {
-                    return null;
+                    return "http://supershop2026.somee.com/images/noimage.jfif";
                 }
 
-                return $"https://localhost:44381{ImageUrl.Substring(1)}";
+                return $"http://supershop2026.somee.com{ImageUrl.Substring(1)}";
             }
         }
     }

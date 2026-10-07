@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace SuperShop
 {
+
+    // ASP.NET_MVC_15 10:40
+
     public class Program
     {
         // criar uma aplicacao, arrancar a app com configuracoes injectadas

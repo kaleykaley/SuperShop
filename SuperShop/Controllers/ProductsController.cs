@@ -82,8 +82,7 @@ namespace SuperShop.Controllers
 
                 }
 
-                var product = this.ToProduct(model, path);
-                product = _converterHelper.ToProduct(model, path, true);
+                var product = _converterHelper.ToProduct(model, path, true);
 
 
                 // TODO: Modify to the user that is logged in 
