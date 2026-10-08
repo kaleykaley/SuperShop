@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Data;
@@ -12,6 +13,8 @@ using SuperShop.Models;
 
 namespace SuperShop.Controllers
 {
+    // only logged in users can access this controller
+    [Authorize] 
     public class ProductsController : Controller
     {
         private readonly IProductRepository _productRepository;
@@ -60,7 +63,9 @@ namespace SuperShop.Controllers
             return View(product);
         }
 
+
         // GET: Products/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -95,7 +100,9 @@ namespace SuperShop.Controllers
         }
 
 
+        // authorize - restrict access; trying to edit products sends to login page
         // GET: Products/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
