@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using SuperShop.Data.Entities;
 using SuperShop.Helpers;
 using SuperShop.Models;
 using System.Linq;
@@ -37,7 +39,7 @@ namespace SuperShop.Controllers
                 var result = await _userHelper.LoginAsync(model); // Attempt to log in the user
                 if (result.Succeeded)
                 {
-                    if(this.Request.Query.Keys.Contains("ReturnUrl"))
+                    if (this.Request.Query.Keys.Contains("ReturnUrl"))
                     {
                         // If a return URL is specified, redirect the user to that URL after successful login
                         return Redirect(this.Request.Query["ReturnUrl"].First());
@@ -55,6 +57,55 @@ namespace SuperShop.Controllers
         {
             await _userHelper.LogoutAsync(); // Log out the user
             return RedirectToAction("Index", "Home"); // Redirect to home page after logout
+        }
+
+        public IActionResult Register()
+        {
+            return View(); // Show the registration view
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterNewUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(model.Username); // Check if the user already exists
+                if (user == null)
+                {
+                    user = new User
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.Username,
+                        UserName = model.Username
+                    };
+                    var result = await _userHelper.AddUserAsync(user, model.Password); // Create a new user
+
+                    if (result != IdentityResult.Success)
+                    {
+                        ModelState.AddModelError(string.Empty, "The user could not be created."); // Add error message for failed registration
+                        return View(model); // stay on the registration page if registration fails
+                    }
+
+                    var loginViewModel = new LoginViewModel
+                    {
+                        Password = model.Password,
+                        RememberMe = false,
+                        Username = model.Username
+                    };
+
+                    var result2 = await _userHelper.LoginAsync(loginViewModel); // Log in the user after successful registration
+
+                    if (result2.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home"); // Redirect to home page on successful registration
+                    }
+
+                    ModelState.AddModelError(string.Empty, "The user could not be created."); // Add error message for failed registration
+
+                }
+            }
+            return View(model); // stay on the registration page if registration fails or model state is invalid
         }
     }
 }
