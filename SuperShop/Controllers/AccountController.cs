@@ -107,5 +107,76 @@ namespace SuperShop.Controllers
             }
             return View(model); // stay on the registration page if registration fails or model state is invalid
         }
+
+        public async Task<IActionResult> ChangeUser()
+        {
+            var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name); // Get the currently logged-in user
+            var model = new ChangeUserViewModel();
+
+            if (user != null)
+            {
+                model.FirstName = user.FirstName;
+                model.LastName = user.LastName;
+            }
+
+            return View(model); // Show the change user view with the current user's information
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeUser(ChangeUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name); // Get the currently logged-in user
+                if (user != null)
+                {
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    var response = await _userHelper.UpdateUserAsync(user); // Update the user's information
+                    if (response.Succeeded)
+                    {
+                        ViewBag.UserMessage = "User updated!"; // Show success message
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, response.Errors.FirstOrDefault().Description); // Add error message for failed update
+                    }
+                }
+            }
+
+            return View(model); // stay on the change user page if update fails or model state is invalid
+
+        }
+
+        public IActionResult ChangePassword()
+        {
+            return View(); // Show the change password view
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name); // Get the currently logged-in user
+                if (user != null)
+                {
+                    var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword); // Attempt to change the user's password
+                    if (result.Succeeded)
+                    {
+                        return this.RedirectToAction("ChangeUser"); // Redirect to change user page on successful password change
+                    }
+                    else
+                    {
+                        this.ModelState.AddModelError(string.Empty, result.Errors.FirstOrDefault().Description); // Add error message for failed password change
+                    }
+                }
+                else
+                {
+                    this.ModelState.AddModelError(string.Empty, "User not found."); // Add error message if user is not found
+                }
+            }
+            return this.View(model); // stay on the change password page if update fails or model state is invalid
+        }
     }
 }
