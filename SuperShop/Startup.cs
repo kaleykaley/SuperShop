@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,10 +8,6 @@ using Microsoft.Extensions.Hosting;
 using SuperShop.Data;
 using SuperShop.Data.Entities;
 using SuperShop.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SuperShop
 {
@@ -63,6 +58,12 @@ namespace SuperShop
 
             services.AddScoped<IProductRepository, ProductRepository>();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/NotAuthorized";
+                options.AccessDeniedPath = "/Account/NotAuthorized";
+            });
+
             services.AddControllersWithViews();
         }
 
@@ -79,6 +80,10 @@ namespace SuperShop
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            // when user looks for page that doesnt exist, redirect to error controller and pass the status code
+            app.UseStatusCodePagesWithReExecute("/error/{0}");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

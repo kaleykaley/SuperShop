@@ -178,5 +178,12 @@ namespace SuperShop.Controllers
             }
             return this.View(model); // stay on the change password page if update fails or model state is invalid
         }
+
+        // tratar de todos os "nao autorizados"
+        public IActionResult NotAuthorized()
+        {
+            return View(); // Show the not authorized view
+        }
+
     }
 }

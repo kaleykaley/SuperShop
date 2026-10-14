@@ -1,20 +1,17 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Data;
-using SuperShop.Data.Entities;
 using SuperShop.Helpers;
 using SuperShop.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace SuperShop.Controllers
 {
     // only logged in users can access this controller
-    [Authorize] 
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly IProductRepository _productRepository;
@@ -52,13 +49,13 @@ namespace SuperShop.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-                return NotFound();
+                return new NotFoundViewResult("ProductNotFound");
 
             // need id.Value because we used int? 
             var product = await _productRepository.GetByIdAsync(id.Value);
 
             if (product == null)
-                return NotFound();
+                return new NotFoundViewResult("ProductNotFound");
 
             return View(product);
         }
@@ -82,7 +79,7 @@ namespace SuperShop.Controllers
                 // colocar aqui as imagens
                 var path = string.Empty;
 
-                if(model.ImageFile != null && model.ImageFile.Length > 0)
+                if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
                     path = await _imageHelper.UploadImageAsync(model.ImageFile, "products");
 
@@ -106,12 +103,12 @@ namespace SuperShop.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-                return NotFound();
+                return new NotFoundViewResult("ProductNotFound");
 
             var product = await _productRepository.GetByIdAsync(id.Value);
 
             if (product == null)
-                return NotFound();
+                return new NotFoundViewResult("ProductNotFound");
 
             var model = _converterHelper.ToProductViewModel(product);
 
@@ -136,7 +133,7 @@ namespace SuperShop.Controllers
                     // if user uploaded a new image, we need to save it and update the path
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "products");                   
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "products");
                     }
 
                     var product = _converterHelper.ToProduct(model, path, false);
@@ -148,7 +145,7 @@ namespace SuperShop.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await _productRepository.ExistsAsync(model.Id))
+                    if (!await _productRepository.ExistsAsync(model.Id))
                     {
                         return NotFound();
 
@@ -170,12 +167,12 @@ namespace SuperShop.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-                return NotFound();
+                return new NotFoundViewResult("ProductNotFound");
 
             var product = await _productRepository.GetByIdAsync(id.Value);
 
             if (product == null)
-                return NotFound();
+                return new NotFoundViewResult("ProductNotFound");
 
             return View(product);
         }
@@ -189,6 +186,11 @@ namespace SuperShop.Controllers
             await _productRepository.DeleteAsync(product);
             // we dont see to save here because the repository handles that for us
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult ProductNotFound()
+        {
+            return View();
         }
     }
 }

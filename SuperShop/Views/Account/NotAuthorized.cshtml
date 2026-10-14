@@ -1,0 +1,274 @@
+﻿
+@{
+    ViewBag.Title = "Access Denied";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700|Catamaran:400,800" rel="stylesheet">
+
+<style>
+    .silo-page-wrapper {
+        background-color: #FDFAF5;
+        padding: 40px 0;
+        text-align: center;
+        font-family: 'Montserrat', Helvetica, sans-serif;
+    }
+
+    .silo-page-wrapper .error-container {
+        text-align: center;
+        font-size: 106px;
+        font-family: 'Catamaran', sans-serif;
+        font-weight: 800;
+        margin: 70px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .silo-page-wrapper .error-container > span {
+        display: inline-block;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    /* 4 */
+    .silo-page-wrapper .error-container > span.four {
+        width: 136px;
+        height: 43px;
+        border-radius: 999px;
+        background:
+            linear-gradient(140deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.07) 43%, transparent 44%, transparent 100%),
+            linear-gradient(105deg, transparent 0%, transparent 40%, rgba(0, 0, 0, 0.06) 41%, rgba(0, 0, 0, 0.07) 76%, transparent 77%, transparent 100%),
+            linear-gradient(to right, #d89ca4, #e27b7e);
+    }
+
+    .silo-page-wrapper .error-container > span.four:before,
+    .silo-page-wrapper .error-container > span.four:after {
+        content: '';
+        display: block;
+        position: absolute;
+        border-radius: 999px;
+    }
+
+    .silo-page-wrapper .error-container > span.four:before {
+        width: 43px;
+        height: 156px;
+        left: 60px;
+        bottom: -43px;
+        background:
+            linear-gradient(128deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.07) 40%, transparent 41%, transparent 100%),
+            linear-gradient(116deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.07) 50%, transparent 51%, transparent 100%),
+            linear-gradient(to top, #99749D, #B895AB, #CC9AA6, #D7969E, #E0787F);
+    }
+
+    .silo-page-wrapper .error-container > span.four:after {
+        width: 137px;
+        height: 43px;
+        transform: rotate(-49.5deg);
+        left: -18px;
+        bottom: 36px;
+        background: linear-gradient(to right, #99749D, #B895AB, #CC9AA6, #D7969E, #E0787F);
+    }
+
+    /* 0 */
+    .silo-page-wrapper .error-container > span.zero {
+        width: 156px;
+        height: 156px;
+        border-radius: 50%;
+        background:
+            linear-gradient(-45deg, transparent 0%, rgba(0, 0, 0, 0.06) 50%, transparent 51%, transparent 100%),
+            linear-gradient(to top right, #99749D, #99749D, #B895AB, #CC9AA6, #D7969E, #ED8687, #ED8687);
+        overflow: hidden;
+        animation: bgshadow 5s infinite;
+    }
+
+    .silo-page-wrapper .error-container > span.zero:before {
+        content: '';
+        display: block;
+        position: absolute;
+        transform: rotate(45deg);
+        width: 90px;
+        height: 90px;
+        left: 0;
+        bottom: 0;
+        background:
+            linear-gradient(95deg, transparent 0%, transparent 8%, rgba(0, 0, 0, 0.07) 9%, transparent 50%, transparent 100%),
+            linear-gradient(85deg, transparent 0%, transparent 19%, rgba(0, 0, 0, 0.05) 20%, rgba(0, 0, 0, 0.07) 91%, transparent 92%, transparent 100%);
+    }
+
+    .silo-page-wrapper .error-container > span.zero:after {
+        content: '';
+        display: block;
+        position: absolute;
+        border-radius: 50%;
+        width: 70px;
+        height: 70px;
+        left: 43px;
+        bottom: 43px;
+        background: #FDFAF5;
+        box-shadow: -2px 2px 2px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    /*
+       3 — shaped with an SVG-like silhouette using CSS.
+       The right side has two rounded lobes connected in the middle.
+    */
+    .silo-page-wrapper .error-container > span.three {
+        width: 130px;
+        height: 156px;
+        position: relative;
+        background: linear-gradient(
+            135deg,
+            #99749D 0%,
+            #B895AB 30%,
+            #CC9AA6 55%,
+            #D7969E 78%,
+            #E0787F 100%
+        );
+        overflow: hidden;
+
+        /* Rounded outside edge, flat left edge */
+        border-radius: 0 78px 78px 0;
+
+        /* Create the overall silhouette */
+        clip-path: polygon(
+            0 0,
+            66% 0,
+            82% 3%,
+            94% 12%,
+            100% 25%,
+            98% 36%,
+            90% 44%,
+            77% 49%,
+            90% 54%,
+            98% 63%,
+            100% 75%,
+            94% 88%,
+            82% 97%,
+            66% 100%,
+            0 100%,
+            0 77%,
+            48% 77%,
+            61% 74%,
+            68% 68%,
+            68% 61%,
+            61% 56%,
+            48% 54%,
+            30% 54%,
+            30% 43%,
+            48% 43%,
+            61% 40%,
+            68% 35%,
+            68% 28%,
+            61% 23%,
+            48% 23%,
+            0 23%
+        );
+    }
+
+    .screen-reader-text {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    /* Razor-escaped CSS keyframes */
+    @@keyframes bgshadow {
+        0% {
+            box-shadow: inset -160px 160px 0 5px rgba(0, 0, 0, 0.4);
+        }
+        45% {
+            box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0.1);
+        }
+        55% {
+            box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0.1);
+        }
+        100% {
+            box-shadow: inset 160px -160px 0 5px rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    .silo-page-wrapper h1 {
+        text-align: center;
+        margin: 30px 15px;
+        color: #444;
+    }
+
+    .silo-page-wrapper .zoom-area {
+        max-width: 490px;
+        margin: 30px auto;
+        padding: 0 15px;
+        font-size: 19px;
+        color: #777;
+        text-align: center;
+    }
+
+    .silo-page-wrapper .link-container {
+        text-align: center;
+    }
+
+    .silo-page-wrapper a.more-link {
+        text-transform: uppercase;
+        font-size: 13px;
+        background-color: #de7e85;
+        padding: 12px 25px;
+        color: #fff;
+        display: inline-block;
+        text-decoration: none;
+        margin-top: 30px;
+        letter-spacing: 1px;
+        transition: background-color 0.2s ease;
+    }
+
+    .silo-page-wrapper a.more-link:hover {
+        background-color: #c96b72;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    /* Responsive layout */
+    @@media (max-width: 600px) {
+        .silo-page-wrapper .error-container {
+            gap: 10px;
+            transform: scale(0.65);
+            transform-origin: center center;
+            margin: 35px auto;
+        }
+    }
+</style>
+
+<div class="silo-page-wrapper">
+    <h1>Not Authorized</h1>
+
+    <p class="zoom-area">
+        You are not authorized to access this page.
+    </p>
+
+    <section class="error-container" aria-label="Error 403">
+        <span class="four">
+            <span class="screen-reader-text">4</span>
+        </span>
+
+        <span class="zero">
+            <span class="screen-reader-text">0</span>
+        </span>
+
+        <span class="three">
+            <span class="screen-reader-text">3</span>
+        </span>
+    </section>
+
+    <div class="link-container">
+        <a href="@Url.Action("Index", "Home")" class="more-link">
+            Back to Home
+        </a>
+    </div>
+</div>
