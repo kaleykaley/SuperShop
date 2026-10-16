@@ -50,6 +50,8 @@ namespace SuperShop
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
 
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
 
             // dizer que quero usar o meu repository, e que quero que seja scoped, ou seja, vai ser criado uma vez por request

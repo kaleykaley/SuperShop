@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SuperShop.Data.Entities;
 using SuperShop.Helpers;
 using System;
@@ -32,7 +33,10 @@ namespace SuperShop.Data
         {
             // first, ver se a DB já está criada e se não
             // estiver, cria a DB
-            await _context.Database.EnsureCreatedAsync();
+            //await _context.Database.EnsureCreatedAsync();
+
+            // solves problems with migrations, if the DB is not created yet, create it and apply the migrations
+            await _context.Database.MigrateAsync();
 
             // Check if the roles exist and create them if they don't
             await _userHelper.CheckRoleAsync("Admin");

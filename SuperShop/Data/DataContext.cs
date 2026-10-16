@@ -13,6 +13,12 @@ namespace SuperShop.Data
         // propriedade que vai ficar ligada a tabela products atraves do DataContext
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+
+        public DbSet<OrderDetailTemp> OrderDetailTemps { get; set; }
+
         // injeto a minha classe DataContext e uso herança de DbContext para poder usar o EntityFrameworkCore
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
