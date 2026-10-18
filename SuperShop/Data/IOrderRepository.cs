@@ -8,5 +8,10 @@ namespace SuperShop.Data
     {
         // give me all the orders of a specific user
         Task<IQueryable<Order>> GetOrderAsync(string username);
+
+
+
+        Task<IQueryable<OrderDetailTemp>> GetDetailsTempsAsync(string username);
+
     }
 }
