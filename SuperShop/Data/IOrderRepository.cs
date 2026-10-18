@@ -1,4 +1,5 @@
 ﻿using SuperShop.Data.Entities;
+using SuperShop.Models;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,9 +10,13 @@ namespace SuperShop.Data
         // give me all the orders of a specific user
         Task<IQueryable<Order>> GetOrderAsync(string username);
 
-
-
         Task<IQueryable<OrderDetailTemp>> GetDetailsTempsAsync(string username);
+
+        Task AddItemToOrderAsync(AddItemViewModel model, string username);
+
+        Task ModifyOrderDetailTempQuantityAsync(int id, double quantity);
+
+
 
     }
 }
