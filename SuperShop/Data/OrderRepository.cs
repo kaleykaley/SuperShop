@@ -22,7 +22,7 @@ namespace SuperShop.Data
         public async Task AddItemToOrderAsync(AddItemViewModel model, string username)
         {
             var user = await _userHelper.GetUserByEmailAsync(username);
-            if (user == null)
+            if(user == null)
             {
                 return;
             }
@@ -116,19 +116,7 @@ namespace SuperShop.Data
             {
                 _context.OrderDetailTemps.Update(orderDetailTemp);
                 await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task DeleteDetailTempAsync(int id)
-        {
-            var orderDetailTemp = await _context.OrderDetailTemps.FindAsync(id);
-            if (orderDetailTemp == null)
-            {
-                return;
-            }
-            _context.OrderDetailTemps.Remove(orderDetailTemp);
-            await _context.SaveChangesAsync();
-
+            }  
         }
     }
 }
