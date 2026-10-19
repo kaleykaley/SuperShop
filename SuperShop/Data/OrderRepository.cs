@@ -91,6 +91,7 @@ namespace SuperShop.Data
                 // return all orders by order date descending
                 // "items" are all the order details (individual orders)
                 return _context.Orders
+                    .Include(o => o.User)
                     .Include(o => o.Items)
                     .ThenInclude(p => p.Product)
                     .OrderByDescending(o => o.OrderDate);
@@ -129,6 +130,47 @@ namespace SuperShop.Data
             _context.OrderDetailTemps.Remove(orderDetailTemp);
             await _context.SaveChangesAsync();
 
+        }
+
+        // Confirm order: move all order detail temps
+        // to order details and create a new order
+        public async Task<bool> ConfirmOrderAsync(string username)
+        {
+            var user = await _userHelper.GetUserByEmailAsync(username);
+            if (user == null)
+            {
+                return false;
+            }
+
+            var orderTmps = await _context.OrderDetailTemps
+                .Include(o => o.Product)
+                .Where(o => o.User == user)
+                .ToListAsync();
+
+            if (orderTmps == null || orderTmps.Count == 0)
+            {
+                return false;
+            }
+
+            var details = orderTmps.Select(o => new OrderDetail
+            {
+                Price = o.Price,
+                Product = o.Product,
+                Quantity = o.Quantity
+            }).ToList();
+
+            var order = new Order
+            {
+                OrderDate = System.DateTime.UtcNow,
+                User = user,
+                Items = details
+            };
+
+            await CreateAsync(order);
+            _context.OrderDetailTemps.RemoveRange(orderTmps);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }
