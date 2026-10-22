@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SuperShop.Data;
 using SuperShop.Helpers;
 using SuperShop.Models;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -62,10 +64,10 @@ namespace SuperShop.Controllers
 
 
         // GET: Products/Create
-        // only admin can create products
-        [Authorize(Roles = "Admin")]
+        // anyone can create products
         public IActionResult Create()
         {
+            //throw new Exception("Excepção de Teste");
             return View();
         }
 
@@ -177,15 +179,36 @@ namespace SuperShop.Controllers
             return View(product);
         }
 
+        // only admin can delete products
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
-            await _productRepository.DeleteAsync(product);
-            // we dont see to save here because the repository handles that for us
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                //throw new Exception("Excepção de Teste");
+                await _productRepository.DeleteAsync(product);
+                // we dont see to save here because the repository handles that for us
+                return RedirectToAction(nameof(Index));
+
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("DELETE"))
+                {
+                    ViewBag.ErrorTitle = $"{product.Name} provavelmente está a ser usado!";
+                    ViewBag.ErrorMessage = $"{product.Name} não pode ser apagado visto haverem encomendas que o usam.</br></br>" +
+                        $"Experimente primeiro apagar todas as encomendas que o estão a usar," +
+                        $"e torne novamente a apagá-lo";
+
+                }
+                return View("Error");
+            }
+
         }
 
         public IActionResult ProductNotFound()
